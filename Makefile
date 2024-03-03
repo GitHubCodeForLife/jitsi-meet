@@ -1,5 +1,5 @@
 BUILD_DIR = build
-CLEANCSS = ./node_modules/.bin/cleancss
+CLEANCSS =  C:\Users\ASUS\Documents\Tools\jitsi-meet\node_modules\.bin\cleancss
 DEPLOY_DIR = libs
 LIBJITSIMEET_DIR = node_modules/lib-jitsi-meet
 OLM_DIR = node_modules/@matrix-org/olm
@@ -10,7 +10,7 @@ EXCALIDRAW_DIR_DEV = node_modules/@jitsi/excalidraw/dist/excalidraw-assets-dev
 TFLITE_WASM = react/features/stream-effects/virtual-background/vendor/tflite
 MEET_MODELS_DIR  = react/features/stream-effects/virtual-background/vendor/models
 FACE_MODELS_DIR = node_modules/@vladmandic/human-models/models
-NODE_SASS = ./node_modules/.bin/sass
+NODE_SASS = C:\Users\ASUS\Documents\Tools\jitsi-meet\node_modules\.bin\sass
 NPM = npm
 OUTPUT_DIR = .
 STYLES_BUNDLE = css/all.bundle.css
@@ -37,11 +37,11 @@ clean:
 deploy: deploy-init deploy-appbundle deploy-rnnoise-binary deploy-excalidraw deploy-tflite deploy-meet-models deploy-lib-jitsi-meet deploy-olm deploy-tf-wasm deploy-css deploy-local deploy-face-landmarks
 
 deploy-init:
-	rm -fr $(DEPLOY_DIR)
-	mkdir -p $(DEPLOY_DIR)
+	rd /s /q "libs"
+	mkdir $(DEPLOY_DIR)
 
 deploy-appbundle:
-	cp \
+	copy \
 		$(BUILD_DIR)/app.bundle.min.js \
 		$(BUILD_DIR)/app.bundle.min.js.map \
 		$(BUILD_DIR)/external_api.min.js \
@@ -58,53 +58,53 @@ deploy-appbundle:
 		$(BUILD_DIR)/screenshot-capture-worker.min.js \
 		$(BUILD_DIR)/screenshot-capture-worker.min.js.map \
 		$(DEPLOY_DIR)
-	cp \
+	copy \
 		$(BUILD_DIR)/close3.min.js \
 		$(BUILD_DIR)/close3.min.js.map \
 		$(DEPLOY_DIR) || true
 
 deploy-lib-jitsi-meet:
-	cp \
+	copy \
 		$(LIBJITSIMEET_DIR)/dist/umd/lib-jitsi-meet.* \
 		$(DEPLOY_DIR)
 
 deploy-olm:
-	cp \
+	copy \
 		$(OLM_DIR)/olm.wasm \
 		$(DEPLOY_DIR)
 
 deploy-tf-wasm:
-	cp \
+	copy \
 		$(TF_WASM_DIR)/*.wasm \
 		$(DEPLOY_DIR)
 
 deploy-rnnoise-binary:
-	cp \
+	copy \
 		$(RNNOISE_WASM_DIR)/rnnoise.wasm \
 		$(DEPLOY_DIR)
 
 deploy-tflite:
-	cp \
+	copy \
 		$(TFLITE_WASM)/*.wasm \
 		$(DEPLOY_DIR)
 
 deploy-excalidraw:
-	cp -R \
+	copy -R \
 		$(EXCALIDRAW_DIR) \
 		$(DEPLOY_DIR)/
 
 deploy-excalidraw-dev:
-	cp -R \
+	copy -R \
 		$(EXCALIDRAW_DIR_DEV) \
 		$(DEPLOY_DIR)/
 
 deploy-meet-models:
-	cp \
+	copy \
 		$(MEET_MODELS_DIR)/*.tflite \
 		$(DEPLOY_DIR)
 
 deploy-face-landmarks:
-	cp \
+	copy \
 		$(FACE_MODELS_DIR)/blazeface-front.bin \
 		$(FACE_MODELS_DIR)/blazeface-front.json \
 		$(FACE_MODELS_DIR)/emotion.bin \
@@ -113,8 +113,7 @@ deploy-face-landmarks:
 
 deploy-css:
 	$(NODE_SASS) $(STYLES_MAIN) $(STYLES_BUNDLE) && \
-	$(CLEANCSS) --skip-rebase $(STYLES_BUNDLE) > $(STYLES_DESTINATION) && \
-	rm $(STYLES_BUNDLE)
+	$(CLEANCSS) --skip-rebase $(STYLES_BUNDLE) > $(STYLES_DESTINATION) 
 
 deploy-local:
 	([ ! -x deploy-local.sh ] || ./deploy-local.sh)
@@ -125,7 +124,7 @@ dev: deploy-init deploy-css deploy-rnnoise-binary deploy-tflite deploy-meet-mode
 
 source-package:
 	mkdir -p source_package/jitsi-meet/css && \
-	cp -r *.js *.html resources/*.txt fonts images libs static sounds LICENSE lang source_package/jitsi-meet && \
-	cp css/all.css source_package/jitsi-meet/css && \
+	copy -r *.js *.html resources/*.txt fonts images libs static sounds LICENSE lang source_package/jitsi-meet && \
+	copy css/all.css source_package/jitsi-meet/css && \
 	(cd source_package ; tar cjf ../jitsi-meet.tar.bz2 jitsi-meet) && \
 	rm -rf source_package
