@@ -41,75 +41,53 @@ deploy-init:
 	mkdir $(DEPLOY_DIR)
 
 deploy-appbundle:
-	copy \
-		$(BUILD_DIR)/app.bundle.min.js \
-		$(BUILD_DIR)/app.bundle.min.js.map \
-		$(BUILD_DIR)/external_api.min.js \
-		$(BUILD_DIR)/external_api.min.js.map \
-		$(BUILD_DIR)/alwaysontop.min.js \
-		$(BUILD_DIR)/alwaysontop.min.js.map \
-		$(OUTPUT_DIR)/analytics-ga.js \
-		$(BUILD_DIR)/analytics-ga.min.js \
-		$(BUILD_DIR)/analytics-ga.min.js.map \
-		$(BUILD_DIR)/face-landmarks-worker.min.js \
-		$(BUILD_DIR)/face-landmarks-worker.min.js.map \
-		$(BUILD_DIR)/noise-suppressor-worklet.min.js \
-		$(BUILD_DIR)/noise-suppressor-worklet.min.js.map \
-		$(BUILD_DIR)/screenshot-capture-worker.min.js \
-		$(BUILD_DIR)/screenshot-capture-worker.min.js.map \
-		$(DEPLOY_DIR)
-	copy \
-		$(BUILD_DIR)/close3.min.js \
-		$(BUILD_DIR)/close3.min.js.map \
-		$(DEPLOY_DIR) || true
-
+	copy     $(BUILD_DIR)/app.bundle.min.js $(DEPLOY_DIR)
+	copy     $(BUILD_DIR)/app.bundle.min.js.map $(DEPLOY_DIR)
+	copy     $(BUILD_DIR)/external_api.min.js $(DEPLOY_DIR)
+	copy     $(BUILD_DIR)/external_api.min.js.map $(DEPLOY_DIR)
+	copy     $(BUILD_DIR)/alwaysontop.min.js $(DEPLOY_DIR)
+	copy     $(BUILD_DIR)/alwaysontop.min.js.map $(DEPLOY_DIR)
+	copy     $(OUTPUT_DIR)/analytics-ga.js $(DEPLOY_DIR)
+	copy     $(BUILD_DIR)/analytics-ga.min.js $(DEPLOY_DIR)
+	copy     $(BUILD_DIR)/analytics-ga.min.js.map $(DEPLOY_DIR)
+	copy     $(BUILD_DIR)/face-landmarks-worker.min.js $(DEPLOY_DIR)
+	copy     $(BUILD_DIR)/face-landmarks-worker.min.js.map $(DEPLOY_DIR)
+	copy     $(BUILD_DIR)/noise-suppressor-worklet.min.js $(DEPLOY_DIR)
+	copy     $(BUILD_DIR)/noise-suppressor-worklet.min.js.map $(DEPLOY_DIR)
+	copy     $(BUILD_DIR)/screenshot-capture-worker.min.js $(DEPLOY_DIR)
+	copy     $(BUILD_DIR)/screenshot-capture-worker.min.js.map $(DEPLOY_DIR)
+	copy	 $(BUILD_DIR)/close3.min.js $(DEPLOY_DIR)
+	copy	 $(BUILD_DIR)/close3.min.js.map $(DEPLOY_DIR)
 deploy-lib-jitsi-meet:
-	copy \
-		$(LIBJITSIMEET_DIR)/dist/umd/lib-jitsi-meet.* \
-		$(DEPLOY_DIR)
+	copy node_modules\lib-jitsi-meet\dist\umd\lib-jitsi-meet.* libs
 
 deploy-olm:
-	copy \
-		$(OLM_DIR)/olm.wasm \
-		$(DEPLOY_DIR)
+	copy node_modules\@matrix-org\olm\olm.wasm libs
 
 deploy-tf-wasm:
-	copy \
-		$(TF_WASM_DIR)/*.wasm \
-		$(DEPLOY_DIR)
+	copy node_modules\@tensorflow\tfjs-backend-wasm\dist\\*.wasm libs
 
 deploy-rnnoise-binary:
-	copy \
-		$(RNNOISE_WASM_DIR)/rnnoise.wasm \
-		$(DEPLOY_DIR)
+	copy node_modules\@jitsi\rnnoise-wasm\dist\rnnoise.wasm libs
 
 deploy-tflite:
-	copy \
-		$(TFLITE_WASM)/*.wasm \
-		$(DEPLOY_DIR)
+	copy react\features\stream-effects\virtual-background\vendor\tflite\*.wasm libs
 
 deploy-excalidraw:
-	copy -R \
-		$(EXCALIDRAW_DIR) \
-		$(DEPLOY_DIR)/
+	copy node_modules\@jitsi\excalidraw\dist\excalidraw-assets libs
 
 deploy-excalidraw-dev:
-	copy -R \
-		$(EXCALIDRAW_DIR_DEV) \
-		$(DEPLOY_DIR)/
+	copy  react\features\stream-effects\virtual-background\vendor\models\*.tflite  libs
 
 deploy-meet-models:
-	copy \
-		$(MEET_MODELS_DIR)/*.tflite \
-		$(DEPLOY_DIR)
+	copy react\features\stream-effects\virtual-background\vendor\models\*.tflite libs
 
 deploy-face-landmarks:
-	copy \
-		$(FACE_MODELS_DIR)/blazeface-front.bin \
-		$(FACE_MODELS_DIR)/blazeface-front.json \
-		$(FACE_MODELS_DIR)/emotion.bin \
-		$(FACE_MODELS_DIR)/emotion.json \
-		$(DEPLOY_DIR)
+	copy node_modules\@vladmandic\human-models\models\blazeface-front.bin  libs
+	copy node_modules\@vladmandic\human-models\models\blazeface-front.json libs
+	copy node_modules\@vladmandic\human-models\models\emotion.bin  libs
+	copy node_modules\@vladmandic\human-models\models\emotion.json  libs
+		
 
 deploy-css:
 	$(NODE_SASS) $(STYLES_MAIN) $(STYLES_BUNDLE) && \
